@@ -3,12 +3,11 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
-import Toolbar from '@mui/material/Toolbar'
 import Paper from '@mui/material/Paper'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
 
-import Header from './components/Header'
-import Profile from './components/Profile'
+import Header from './components/header/Header'
+import Profile from './components/profile/Profile'
 
 function Copyright() {
   return (

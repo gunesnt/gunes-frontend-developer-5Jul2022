@@ -13,9 +13,11 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "latest",
+    "formik": "^2.2.9",
     "react": "latest",
     "react-dom": "latest",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "yup": "^0.32.11"
   },
   "browserslist": {
     "production": [
