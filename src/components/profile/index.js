@@ -1,19 +1,15 @@
-import React from 'react'
-import * as yup from 'yup'
-import { useFormik } from 'formik'
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
-import Avatar from '@mui/material/Avatar'
+import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import Avatar from '@mui/material/Avatar'
 import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import { Outlet } from 'react-router-dom'
+import Typography from '@mui/material/Typography'
+import EditIcon from '@mui/icons-material/Edit'
 
 import PageLayout from 'components/PageLayout'
 import WorkExperience from './WorkExperience'
-import { Typography } from '@mui/material'
+import EditProfile from 'components/Modal/EditProfile'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -23,25 +19,14 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }))
 
-const validationSchema = yup.object({
-  name: yup.string('Enter your name').required('name is required'),
-  age: yup.number('Enter your age'),
-})
 const Input = styled('input')({
   display: 'none',
 })
 
 const Profile = () => {
-  const formik = useFormik({
-    initialValues: {
-      name: 'Gunes Nermin Tokul',
-      age: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
-    },
-  })
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   return (
     <PageLayout
@@ -71,46 +56,16 @@ const Profile = () => {
               <Typography>Gunes Nermin Tokul</Typography>
               <Typography>25</Typography>
             </Box>
+
+            <IconButton aria-label="edit" component="span" onClick={handleOpen}>
+              <EditIcon />
+            </IconButton>
+
+            <EditProfile open={open} handleClose={handleClose} />
           </Box>
         </>
       }>
-      <Box
-        disableGutters
-        component="form"
-        onSubmit={formik.handleSubmit}
-        sx={{
-          '& .MuiTextField-root': { m: 5, width: '50ch' },
-          '& .MuiBox-root': { ml: '30px', mr: '30px' },
-        }}
-        noValidate
-        autoComplete="off">
-        <div>
-          <TextField
-            id="standard-read-only-input"
-            label="Name"
-            name="name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-            variant="standard"
-          />
-          <TextField
-            id="standard-read-only-input"
-            label="Age"
-            name="age"
-            value={formik.values.age}
-            onChange={formik.handleChange}
-            error={formik.touched.age && Boolean(formik.errors.age)}
-            helperText={formik.touched.age && formik.errors.age}
-            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-            variant="standard"
-          />
-          <div>
-            <WorkExperience />
-          </div>
-        </div>
-      </Box>
+      <WorkExperience />
     </PageLayout>
   )
 }

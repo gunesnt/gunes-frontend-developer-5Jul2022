@@ -6,7 +6,11 @@ import Grid from '@mui/material/Grid'
 
 const WorkExperience = () => {
   return (
-    <div>
+    <Box
+      sx={{
+        '& .MuiTextField-root': { m: 5, width: '50ch' },
+        '& .MuiBox-root': { ml: '30px', mr: '30px' },
+      }}>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
@@ -47,7 +51,7 @@ const WorkExperience = () => {
         label="Job Description"
         variant="standard"
       />
-    </div>
+    </Box>
   )
 }
 
