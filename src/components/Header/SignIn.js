@@ -12,9 +12,16 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
+import { signInWithGooglePopup } from '../../utils/firebase'
+
 const theme = createTheme()
 
 const SignIn = () => {
+  const logGoogleUser = async () => {
+    const response = signInWithGooglePopup()
+    console.log(response)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -69,12 +76,16 @@ const SignIn = () => {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              Sign In
+            </Button>
             <Button
               type="submit"
+              onClick={logGoogleUser}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}>
-              Sign In
+              Google sign in
             </Button>
             <Grid container>
               <Grid item xs>
