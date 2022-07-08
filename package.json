@@ -16,6 +16,7 @@
     "formik": "^2.2.9",
     "react": "latest",
     "react-dom": "latest",
+    "react-router-dom": "6",
     "react-scripts": "latest",
     "yup": "^0.32.11"
   },

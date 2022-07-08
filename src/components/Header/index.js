@@ -5,9 +5,10 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import AdbIcon from '@mui/icons-material/Adb'
+import Button from '@mui/material/Button'
 
 import ElevationScroll from 'components/ElevationScroll'
-import LoginButton from './LoginButton'
+import { Link, Outlet } from 'react-router-dom'
 
 const Header = (props) => (
   <ElevationScroll {...props}>
@@ -19,7 +20,8 @@ const Header = (props) => (
           <Typography
             variant="h5"
             noWrap
-            component="a"
+            component={Link}
+            to="/"
             href=""
             sx={{
               mr: 2,
@@ -35,8 +37,16 @@ const Header = (props) => (
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
-            <LoginButton />
+            <Button
+              sx={{ color: 'inherit' }}
+              component={Link}
+              to="/sign-in"
+              variant="contained">
+              Sign In
+            </Button>
+            {/* <Link to="/sign-in">Sign In</Link> */}
           </Box>
+          <Outlet />
         </Toolbar>
       </Container>
     </AppBar>

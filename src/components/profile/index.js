@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
+import { Outlet } from 'react-router-dom'
 
 import PageLayout from 'components/PageLayout'
 import WorkExperience from './WorkExperience'
