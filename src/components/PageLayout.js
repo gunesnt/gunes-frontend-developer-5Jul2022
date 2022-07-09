@@ -7,21 +7,21 @@ const PageLayout = ({ header, children }) => (
   <>
     <Box
       sx={{
-        height: 300,
+        height: '60vh',
+        minHeight: 200,
+        maxHeight: 350,
         bgcolor: 'primary.main',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        pb: 16,
         color: 'white',
+        pb: '10vh',
       }}>
       {header}
     </Box>
 
-    <Container>
-      <Paper elevation={0} sx={{ mt: -15, borderRadius: 3 }}>
-        {children}
-      </Paper>
+    <Container maxWidth="md" sx={{ mt: '-10vh' }}>
+      {children}
     </Container>
   </>
 )

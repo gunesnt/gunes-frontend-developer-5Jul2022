@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 
 import PageLayout from 'components/PageLayout'
-import WorkExperience from './WorkExperience'
 import EditProfile from 'components/Modal/EditProfile'
+import ExperienceList from 'components/ExperienceList'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -65,7 +65,7 @@ const Profile = () => {
           </Box>
         </>
       }>
-      <WorkExperience />
+      <ExperienceList />
     </PageLayout>
   )
 }

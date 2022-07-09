@@ -13,7 +13,7 @@ import { Link, Outlet } from 'react-router-dom'
 const Header = (props) => (
   <ElevationScroll {...props}>
     <AppBar>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ color: 'white' }}>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }} />
 
