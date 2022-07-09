@@ -2,28 +2,19 @@ import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
-import Paper from '@mui/material/Paper'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 
 import PageLayout from 'components/PageLayout'
-import EditProfile from 'components/Modal/EditProfile'
+import EditProfileModal from 'components/modals/EditProfileModal'
 import ExperienceList from 'components/ExperienceList'
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}))
 
 const Input = styled('input')({
   display: 'none',
 })
 
-const Profile = () => {
+const ProfilePage = () => {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -61,7 +52,7 @@ const Profile = () => {
               <EditIcon />
             </IconButton>
 
-            <EditProfile open={open} handleClose={handleClose} />
+            <EditProfileModal open={open} handleClose={handleClose} />
           </Box>
         </>
       }>
@@ -70,4 +61,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfilePage

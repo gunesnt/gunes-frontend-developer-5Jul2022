@@ -12,11 +12,11 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import { signInWithGooglePopup } from '../../utils/firebase'
+import { signInWithGooglePopup } from '../utils/firebase'
 
 const theme = createTheme()
 
-const SignIn = () => {
+const SignInPage = () => {
   const logGoogleUser = async () => {
     const response = signInWithGooglePopup()
     console.log(response)
@@ -106,4 +106,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default SignInPage

@@ -1,13 +1,13 @@
 import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import Dialog from '@mui/material/Dialog'
+import TextField from '@mui/material/TextField'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import Box from '@mui/material/Box'
 
 const validationSchema = yup.object({
   startDate: yup.number('Enter your startDate'),
@@ -20,7 +20,7 @@ const validationSchema = yup.object({
     .required('description is required'),
 })
 
-const EditExperience = ({ open, handleClose }) => {
+const EditExperienceModal = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
       startDate: '',
@@ -133,4 +133,4 @@ const EditExperience = ({ open, handleClose }) => {
   )
 }
 
-export default EditExperience
+export default EditExperienceModal

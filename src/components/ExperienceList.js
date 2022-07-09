@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider'
 
 import experiencesData from 'experiencesData'
 import Section from 'components/Section'
-import ExperienceItem from './ExperienceItem'
+import ExperienceItem from 'components/ExperienceItem'
 
 const ExperienceList = () => {
   return (

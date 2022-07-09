@@ -7,7 +7,8 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
-import EditExperience from 'components/Modal/EditExperience'
+
+import EditExperienceModal from 'components/modals/EditExperienceModal'
 
 const ExperienceItem = ({ item }) => {
   const [open, setOpen] = useState(false)
@@ -22,7 +23,7 @@ const ExperienceItem = ({ item }) => {
           <IconButton size="small" onClick={handleOpen}>
             <EditIcon fontSize="inherit" />
           </IconButton>
-          <EditExperience open={open} handleClose={handleClose} />
+          <EditExperienceModal open={open} handleClose={handleClose} />
         </>
       }>
       <ListItemAvatar>

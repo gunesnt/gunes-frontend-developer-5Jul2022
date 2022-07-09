@@ -4,17 +4,17 @@ import Container from '@mui/material/Container'
 import Toolbar from '@mui/material/Toolbar'
 
 import Header from 'components/Header'
-import Profile from 'components/Profile'
 import Footer from 'components/Footer'
-import SignIn from 'components/Header/SignIn'
+import ProfilePage from 'pages/profile'
+import SignInPage from 'pages/sign-in'
 
 const App = () => (
   <Container maxWidth={false} disableGutters>
     <Header />
     <Toolbar />
     <Routes>
-      <Route exact path="/" element={<Profile />} />
-      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/" element={<ProfilePage />} />
+      <Route path="/sign-in" element={<SignInPage />} />
     </Routes>
     <Footer />
   </Container>

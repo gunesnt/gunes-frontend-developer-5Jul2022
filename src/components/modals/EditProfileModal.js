@@ -1,20 +1,20 @@
 import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import Dialog from '@mui/material/Dialog'
+import TextField from '@mui/material/TextField'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import Box from '@mui/material/Box'
 
 const validationSchema = yup.object({
   name: yup.string('Enter your name').required('name is required'),
   age: yup.number('Enter your age'),
 })
 
-const EditProfile = ({ open, handleClose }) => {
+const EditProfileModal = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
       name: 'Gunes Nermin Tokul',
@@ -74,4 +74,4 @@ const EditProfile = ({ open, handleClose }) => {
   )
 }
 
-export default EditProfile
+export default EditProfileModal
