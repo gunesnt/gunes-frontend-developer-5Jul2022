@@ -1,8 +1,7 @@
 import React from 'react'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
 
-const ElevationScroll = (props) => {
-  const { children, window } = props
+const ElevationScroll = ({ children, window }) => {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,

@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 
-import PageLayout from 'components/PageLayout'
+import PageLayout from 'layouts/PageLayout'
 import EditProfileModal from 'components/modals/EditProfileModal'
 import ExperienceList from 'components/ExperienceList'
+import UserList from 'components/UserList'
 
 const Input = styled('input')({
   display: 'none',
@@ -56,7 +58,14 @@ const ProfilePage = () => {
           </Box>
         </>
       }>
-      <ExperienceList />
+      <Grid container spacing={3}>
+        <Grid item sm={8}>
+          <ExperienceList />
+        </Grid>
+        <Grid item sm={4}>
+          <UserList />
+        </Grid>
+      </Grid>
     </PageLayout>
   )
 }

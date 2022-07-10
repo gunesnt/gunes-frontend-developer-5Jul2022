@@ -1,8 +1,8 @@
 const experiencesData = [
   {
     id: 0,
-    startDate: '01.01.2021',
-    endDate: '01.07.2021',
+    startDate: '01-2021',
+    endDate: '07-2021',
     jobTitle: 'Frontend Developer',
     company: 'SALATECH PTE. LTD',
     companyLogo: '',
@@ -12,7 +12,7 @@ const experiencesData = [
   },
   {
     id: 1,
-    startDate: '01.07.2021',
+    startDate: '07-2021',
     endDate: '',
     jobTitle: 'Web Frontend Developer',
     company: 'SKYBOOKING',

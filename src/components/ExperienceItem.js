@@ -5,29 +5,33 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import EditIcon from '@mui/icons-material/Edit'
+import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone'
 
+import { formatDate } from 'utils/date'
+import ExperienceItemMenu from 'components/ExperienceItemMenu'
 import EditExperienceModal from 'components/modals/EditExperienceModal'
+import AlertModal from 'components/modals/AlertModal'
 
 const ExperienceItem = ({ item }) => {
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [editOpen, setEditOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+
+  const handleEditOpen = () => setEditOpen(true)
+  const handleEditClose = () => setEditOpen(false)
+
+  const handleDeleteOpen = () => setDeleteOpen(true)
+  const handleDeleteClose = () => setDeleteOpen(false)
 
   return (
-    <ListItem
-      alignItems="flex-start"
-      secondaryAction={
-        <>
-          <IconButton size="small" onClick={handleOpen}>
-            <EditIcon fontSize="inherit" />
-          </IconButton>
-          <EditExperienceModal open={open} handleClose={handleClose} />
-        </>
-      }>
+    <ListItem alignItems="flex-start" sx={{ px: 0 }}>
       <ListItemAvatar>
-        <Avatar src={item.companyLogo} alt={item.company} />
+        <Avatar
+          src={item.companyLogo}
+          alt={item.company}
+          sx={{ bgcolor: 'transparent', color: 'text.secondary' }}
+          variant="square">
+          <BusinessTwoToneIcon fontSize="large" />
+        </Avatar>
       </ListItemAvatar>
 
       <ListItemText
@@ -36,22 +40,38 @@ const ExperienceItem = ({ item }) => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'flex-start',
-              pr: 3,
+              alignItems: 'center',
             }}>
             <Typography>{item.jobTitle}</Typography>
-            <Typography variant="caption" color="text.secondary">
-              {item.startDate}
-              {' — '}
-              {item.endDate || 'Present'}
-            </Typography>
+
+            <ExperienceItemMenu
+              handleEditClick={handleEditOpen}
+              handleDeleteClick={handleDeleteOpen}
+            />
+            <EditExperienceModal
+              open={editOpen}
+              handleClose={handleEditClose}
+            />
+            <AlertModal
+              open={deleteOpen}
+              title="Confirm Delete"
+              description="When you delete this experience, you can't take back."
+              confirmText="Delete"
+              handleClose={handleDeleteClose}
+              handleConfirm={handleDeleteClose}
+            />
           </Box>
         }
         secondary={
           <>
             <Typography variant="caption" display="block">
               {item.company}
+              {' — '}
+              {formatDate(item.startDate)}
+              {' - '}
+              {formatDate(item.endDate) || 'Present'}
             </Typography>
+
             <Typography variant="caption" color="text.primary">
               {item.jobDescription}
             </Typography>
