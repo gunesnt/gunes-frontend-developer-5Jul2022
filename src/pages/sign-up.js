@@ -1,16 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Button from '@mui/material/Button'
 
 import FullPageLayout from 'layouts/FullPageLayout'
 import Section from 'components/Section'
-import SignInForm from 'components/SignInForm'
-import SignInWithGoogle from 'components/SignInWithGoogle'
+import SignUpForm from 'components/SignUpForm'
 
 const SignInPage = () => (
   <FullPageLayout>
@@ -27,20 +23,10 @@ const SignInPage = () => (
           <LockOutlinedIcon fontSize="large" />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign up
         </Typography>
 
-        <SignInForm />
-
-        <SignInWithGoogle />
-
-        <Grid container>
-          <Grid item>
-            <Button component={Link} to="/sign-up" variant="body2">
-              {"Don't have an account? Sign Up"}
-            </Button>
-          </Grid>
-        </Grid>
+        <SignUpForm />
       </Box>
     </Section>
   </FullPageLayout>

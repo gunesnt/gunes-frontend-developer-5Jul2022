@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import Box from '@mui/material/Box'
@@ -6,6 +6,8 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
+
+import { AuthContext } from 'contexts/auth'
 
 const validationSchema = yup.object({
   email: yup.string().email('Invalid email address').required('Required'),
@@ -16,6 +18,8 @@ const validationSchema = yup.object({
 })
 
 const SignInForm = () => {
+  const { signIn } = useContext(AuthContext)
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -23,9 +27,7 @@ const SignInForm = () => {
       remember: false,
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values)
-    },
+    onSubmit: async ({ email, password }) => await signIn(email, password),
   })
 
   return (
@@ -37,6 +39,7 @@ const SignInForm = () => {
         {...formik.getFieldProps('email')}
         error={!!(formik.touched.email && formik.errors.email)}
         helperText={formik.touched.email && formik.errors.email}
+        disabled={formik.isSubmitting}
         margin="normal"
         autoFocus
         fullWidth
@@ -51,6 +54,7 @@ const SignInForm = () => {
         {...formik.getFieldProps('password')}
         error={!!(formik.touched.password && formik.errors.password)}
         helperText={formik.touched.password && formik.errors.password}
+        disabled={formik.isSubmitting}
         margin="normal"
         fullWidth
         required
@@ -61,13 +65,19 @@ const SignInForm = () => {
           <Checkbox
             name="remember"
             {...formik.getFieldProps('remember')}
+            disabled={formik.isSubmitting}
             color="primary"
           />
         }
         label="Remember me"
       />
 
-      <Button fullWidth type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <Button
+        fullWidth
+        type="submit"
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        disabled={formik.isSubmitting}>
         Sign In
       </Button>
     </Box>
