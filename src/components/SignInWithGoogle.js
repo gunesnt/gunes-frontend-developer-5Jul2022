@@ -1,16 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Button from '@mui/material/Button'
-
-import { signInWithGooglePopup } from 'utils/firebase'
+import { AuthContext } from 'contexts/auth'
 
 const SignInWithGoogle = () => {
-  const logGoogleUser = async () => {
-    const response = await signInWithGooglePopup()
-    console.log(response)
-  }
+  const { GoogleSignIn } = useContext(AuthContext)
 
   return (
-    <Button variant="contained" onClick={logGoogleUser} fullWidth>
+    <Button variant="contained" onClick={GoogleSignIn} fullWidth>
       Google sign in
     </Button>
   )

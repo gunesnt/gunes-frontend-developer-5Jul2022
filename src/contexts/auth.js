@@ -1,66 +1,70 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-
 import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-  onAuthStateChangedListener,
-  signInAuthUserWithEmailAndPassword,
+  createAuthUser,
+  onAuthChangedListener,
+  signInUser,
+  signInWithGoogle,
   signOutUser,
 } from 'utils/firebase'
 
-const DEFAULT_PROTECTED_REDIRECT = '/'
+import { DEFAULT_PROTECTED_PATH, SIGN_IN_PATH } from 'constants'
+import { useUser } from './user'
 
 const AUTH = {
-  user: null,
+  currentUser: null,
   isAuthenticated: false,
   fetched: false,
-  onAuthChanged: () => null,
-  signIn: () => null,
-  signOut: () => null,
-  signUp: () => null,
 }
 
 export const AuthContext = createContext(AUTH)
 export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
+  const { createUser } = useUser()
   const [auth, setAuth] = useState(AUTH)
   const navigate = useNavigate()
   const location = useLocation()
-  const from = location.state?.from?.pathname || DEFAULT_PROTECTED_REDIRECT
 
   const onAuthChanged = (user) => {
-    console.log({ user })
-    setAuth({ user, isAuthenticated: !!user, fetched: true })
+    setAuth({ currentUser: user, isAuthenticated: !!user, fetched: true })
   }
 
   useEffect(() => {
-    onAuthStateChangedListener((user) => onAuthChanged(user))
+    onAuthChangedListener((user) => onAuthChanged(user))
   }, [])
 
+  const redirect = () => {
+    const from = location.state?.from?.pathname || DEFAULT_PROTECTED_PATH
+    navigate(from, { replace: true })
+  }
+
   const signIn = async (email, password) => {
-    const result = await signInAuthUserWithEmailAndPassword(email, password)
-    if (result.user) navigate(from, { replace: true })
+    const { user } = await signInUser(email, password)
+    if (user) redirect()
+  }
+
+  const GoogleSignIn = async () => {
+    const { user } = await signInWithGoogle()
+    if (user) {
+      await createUser(user)
+      redirect()
+    }
   }
 
   const signOut = async () => await signOutUser()
 
-  const signUp = async (email, password, additionalInfos) => {
-    const { user } = await createAuthUserWithEmailAndPassword(email, password)
-
+  const signUp = async (email, password, userInfo) => {
+    const { user } = await createAuthUser(email, password)
     if (user) {
-      if (additionalInfos) {
-        const {} = await createUserDocumentFromAuth(user, additionalInfos)
-      }
-
-      navigate(from, { replace: true })
+      await createUser(user, userInfo)
+      redirect()
     }
   }
 
   return (
     <AuthContext.Provider
-      value={{ ...auth, onAuthChanged, signIn, signOut, signUp }}>
+      value={{ ...auth, onAuthChanged, signIn, GoogleSignIn, signOut, signUp }}>
       {children}
     </AuthContext.Provider>
   )
@@ -73,7 +77,7 @@ export const RequireAuth = ({ children }) => {
   if (!fetched) return null
 
   if (!isAuthenticated)
-    return <Navigate to="/sign-in" state={{ from: location }} replace />
+    return <Navigate to={SIGN_IN_PATH} state={{ from: location }} replace />
 
   return children
 }

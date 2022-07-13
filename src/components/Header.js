@@ -9,6 +9,7 @@ import AdbIcon from '@mui/icons-material/Adb'
 import Button from '@mui/material/Button'
 import { alpha } from '@mui/material'
 
+import { SIGN_IN_PATH } from 'constants'
 import { useAuth } from 'contexts/auth'
 import ElevationScroll from 'components/ElevationScroll'
 
@@ -47,7 +48,7 @@ const Header = (props) => {
               LOGO
             </Typography>
 
-            {location.pathname !== '/sign-in' && !!fetched && (
+            {location.pathname !== SIGN_IN_PATH && !!fetched && (
               <Box sx={{ flexGrow: 0 }}>
                 {isAuthenticated ? (
                   <Button variant="text" color="inherit" onClick={signOut}>
@@ -56,7 +57,7 @@ const Header = (props) => {
                 ) : (
                   <Button
                     component={Link}
-                    to="/sign-in"
+                    to={SIGN_IN_PATH}
                     variant="text"
                     color="inherit">
                     Sign In

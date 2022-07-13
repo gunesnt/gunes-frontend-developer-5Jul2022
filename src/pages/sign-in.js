@@ -6,6 +6,7 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
+import { SIGN_UP_PATH } from 'constants'
 import FullPageLayout from 'layouts/FullPageLayout'
 import Section from 'components/Section'
 import SignInForm from 'components/SignInForm'
@@ -32,7 +33,7 @@ const SignInPage = () => (
 
         <Grid container justifyContent="flex-end" sx={{ mt: -1 }}>
           <Grid item>
-            <Typography component={Link} to="/sign-up" variant="body2">
+            <Typography component={Link} to={SIGN_UP_PATH} variant="body2">
               {"Don't have an account? Sign Up"}
             </Typography>
           </Grid>
