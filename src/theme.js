@@ -1,8 +1,22 @@
-import { red } from '@mui/material/colors'
 import { createTheme } from '@mui/material/styles'
+import { red } from '@mui/material/colors'
 
-// A custom theme for this app
 const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: 'white',
+          textShadow: '0 0 1px white',
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        size: 'small',
+      },
+    },
+  },
   palette: {
     primary: {
       main: '#35baf6',

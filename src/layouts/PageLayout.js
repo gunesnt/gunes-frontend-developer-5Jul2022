@@ -19,9 +19,6 @@ const PageLayout = ({ header, headerBgcolor = 'primary.main', children }) => (
 
     <Box
       sx={{
-        height: '60vh',
-        minHeight: 200,
-        maxHeight: 350,
         bgcolor: headerBgcolor,
         display: 'flex',
         flexDirection: 'column',
@@ -30,15 +27,16 @@ const PageLayout = ({ header, headerBgcolor = 'primary.main', children }) => (
       }}>
       <Toolbar />
 
-      <Box
+      <Container
+        maxWidth="md"
         sx={{
-          flex: '1 0 auto',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          p: '7vmin',
         }}>
         {header}
-      </Box>
+      </Container>
     </Box>
 
     <Container maxWidth="md" sx={{ mt: '-10vh' }}>

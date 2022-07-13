@@ -11,7 +11,7 @@ export const users = [
     fullName: 'Nicky Hunter',
     image: 'https://randomuser.me/api/portraits/thumb/women/91.jpg',
     companyName: 'Aufderhar-Cronin',
-    jobTitle: 'Senior Cost Accountant',
+    jobTitle: 'Sales Associate',
   },
   {
     id: 3,

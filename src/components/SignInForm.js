@@ -3,11 +3,13 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
 import { AuthContext } from 'contexts/auth'
+import SignInWithGoogle from 'components/SignInWithGoogle'
 
 const validationSchema = yup.object({
   email: yup.string().email('Invalid email address').required('Required'),
@@ -31,55 +33,59 @@ const SignInForm = () => {
   })
 
   return (
-    <Box component="form" onSubmit={formik.handleSubmit} sx={{ py: 2 }}>
-      <TextField
-        name="email"
-        label="Email Address"
-        autoComplete="email"
-        {...formik.getFieldProps('email')}
-        error={!!(formik.touched.email && formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
-        disabled={formik.isSubmitting}
-        margin="normal"
-        autoFocus
-        fullWidth
-        required
-      />
+    <Box>
+      <Box component="form" onSubmit={formik.handleSubmit}>
+        <TextField
+          name="email"
+          label="Email Address"
+          autoComplete="email"
+          {...formik.getFieldProps('email')}
+          error={!!(formik.touched.email && formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          disabled={formik.isSubmitting}
+          margin="normal"
+          autoFocus
+          fullWidth
+          required
+        />
 
-      <TextField
-        name="password"
-        type="password"
-        label="Password"
-        autoComplete="current-password"
-        {...formik.getFieldProps('password')}
-        error={!!(formik.touched.password && formik.errors.password)}
-        helperText={formik.touched.password && formik.errors.password}
-        disabled={formik.isSubmitting}
-        margin="normal"
-        fullWidth
-        required
-      />
+        <TextField
+          name="password"
+          type="password"
+          label="Password"
+          autoComplete="current-password"
+          {...formik.getFieldProps('password')}
+          error={!!(formik.touched.password && formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          disabled={formik.isSubmitting}
+          margin="normal"
+          fullWidth
+          required
+        />
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="remember"
-            {...formik.getFieldProps('remember')}
-            disabled={formik.isSubmitting}
-            color="primary"
-          />
-        }
-        label="Remember me"
-      />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="remember"
+              {...formik.getFieldProps('remember')}
+              disabled={formik.isSubmitting}
+              color="primary"
+            />
+          }
+          label="Remember me"
+        />
 
-      <Button
-        fullWidth
-        type="submit"
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-        disabled={formik.isSubmitting}>
-        Sign In
-      </Button>
+        <Button
+          fullWidth
+          type="submit"
+          variant="contained"
+          sx={{ mt: 3 }}
+          disabled={formik.isSubmitting}>
+          Sign In
+        </Button>
+      </Box>
+      <Divider variant="middle" sx={{ my: 2.5 }} />
+      <SignInWithGoogle />
     </Box>
   )
 }

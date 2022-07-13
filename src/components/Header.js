@@ -21,7 +21,7 @@ const Header = (props) => {
       <AppBar
         elevation={0}
         sx={{
-          backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.7),
+          backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.5),
           backdropFilter: 'blur(20px)',
         }}>
         <Container maxWidth="lg">

@@ -5,23 +5,21 @@ import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Button from '@mui/material/Button'
 
 import FullPageLayout from 'layouts/FullPageLayout'
 import Section from 'components/Section'
 import SignInForm from 'components/SignInForm'
-import SignInWithGoogle from 'components/SignInWithGoogle'
 
 const SignInPage = () => (
   <FullPageLayout>
-    <Section maxWidth={500}>
+    <Section maxWidth={400}>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 2,
-          m: 5,
+          m: 2,
         }}>
         <Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}>
           <LockOutlinedIcon fontSize="large" />
@@ -32,13 +30,11 @@ const SignInPage = () => (
 
         <SignInForm />
 
-        <SignInWithGoogle />
-
-        <Grid container>
+        <Grid container justifyContent="flex-end" sx={{ mt: -1 }}>
           <Grid item>
-            <Button component={Link} to="/sign-up" variant="body2">
+            <Typography component={Link} to="/sign-up" variant="body2">
               {"Don't have an account? Sign Up"}
-            </Button>
+            </Typography>
           </Grid>
         </Grid>
       </Box>

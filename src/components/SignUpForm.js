@@ -2,6 +2,7 @@ import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
@@ -16,7 +17,7 @@ const validationSchema = yup.object({
     .required('Required'),
   name: yup.string().required('Required'),
   jobTitle: yup.string().required('Required'),
-  age: yup.number().required('Required'),
+  birthday: yup.number().required('Required'),
 })
 
 const SignUpForm = () => {
@@ -28,42 +29,45 @@ const SignUpForm = () => {
       password: '',
       name: '',
       jobTitle: '',
-      age: '',
+      birthday: '',
     },
     validationSchema,
-    onSubmit: async ({ email, password, name, jobTitle, age }) => {
-      // console.log({ email, password, name, jobTitle, age })
-      return await signUp(email, password, { name, jobTitle, age })
-    },
+    onSubmit: async ({ email, password, name, jobTitle, birthday }) =>
+      await signUp(email, password, { name, jobTitle, birthday }),
   })
 
   return (
-    <Box component="form" onSubmit={formik.handleSubmit} sx={{ py: 2 }}>
-      <TextField
-        name="email"
-        label="Email Address"
-        autoComplete="email"
-        {...formik.getFieldProps('email')}
-        error={!!(formik.touched.email && formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
-        margin="normal"
-        autoFocus
-        fullWidth
-        required
-      />
-
-      <TextField
-        name="password"
-        type="password"
-        label="Password"
-        autoComplete="new-password"
-        {...formik.getFieldProps('password')}
-        error={!!(formik.touched.password && formik.errors.password)}
-        helperText={formik.touched.password && formik.errors.password}
-        margin="normal"
-        fullWidth
-        required
-      />
+    <Box component="form" onSubmit={formik.handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            name="email"
+            label="Email Address"
+            autoComplete="email"
+            {...formik.getFieldProps('email')}
+            error={!!(formik.touched.email && formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            margin="normal"
+            autoFocus
+            fullWidth
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            name="password"
+            type="password"
+            label="Password"
+            autoComplete="new-password"
+            {...formik.getFieldProps('password')}
+            error={!!(formik.touched.password && formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            margin="normal"
+            fullWidth
+            required
+          />
+        </Grid>
+      </Grid>
 
       <Divider />
 
@@ -92,18 +96,18 @@ const SignUpForm = () => {
       />
 
       <TextField
-        name="age"
-        label="Age"
-        autoComplete="age"
-        {...formik.getFieldProps('age')}
-        error={!!(formik.touched.age && formik.errors.age)}
-        helperText={formik.touched.age && formik.errors.age}
+        name="birthday"
+        label="Birthday"
+        autoComplete="bday"
+        {...formik.getFieldProps('birthday')}
+        error={!!(formik.touched.birthday && formik.errors.birthday)}
+        helperText={formik.touched.birthday && formik.errors.birthday}
         margin="normal"
         fullWidth
         required
       />
 
-      <Button fullWidth type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
         Sign up
       </Button>
     </Box>
