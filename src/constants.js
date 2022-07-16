@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export const DEFAULT_PROTECTED_PATH = '/'
 export const SIGN_IN_PATH = '/sign-in'
 export const SIGN_UP_PATH = '/sign-up'
@@ -10,3 +12,6 @@ export const FIREBASE_CONFIG = {
   messagingSenderId: process.env.REACT_APP__FB__MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP__FB__APP_ID,
 }
+
+export const LEGAL_AGE = 18
+export const MAX_LEGAL_DATE = dayjs().subtract(LEGAL_AGE, 'year')

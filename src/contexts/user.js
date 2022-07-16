@@ -1,12 +1,13 @@
 import { createContext, useContext, useState } from 'react'
-import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore'
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore'
 
-import { db } from 'utils/firebase'
+import { db, uploadFile } from 'utils/firebase'
 
 const USER = {
-  id: 0,
+  uid: '',
   name: '',
-  photoUrl: '',
+  photoURL: '',
+  photoThumbURL: '',
   jobTitle: '',
   birthday: '',
 }
@@ -28,9 +29,18 @@ export const UserProvider = ({ children }) => {
     const snapshot = await getDoc(ref)
 
     if (!snapshot.exists()) {
-      const { displayName: name, email, photoURL } = authUser
+      const { uid, displayName: name, email, photoURL } = authUser
       const createdAt = Timestamp.fromDate(new Date())
-      const newUser = { name, email, photoURL, createdAt, ...data }
+      const newUser = {
+        ...USER,
+        uid,
+        name,
+        email,
+        photoURL,
+        photoThumbURL: photoURL,
+        createdAt,
+        ...data,
+      }
 
       try {
         await setDoc(ref, newUser)
@@ -45,15 +55,36 @@ export const UserProvider = ({ children }) => {
     const ref = doc(db, 'users', uid)
 
     try {
-      await setDoc(ref, data)
-      setUser(data)
+      await updateDoc(ref, data)
+      setUser({ ...user, ...data })
     } catch (error) {
       console.log('error updating the user', error.message)
     }
   }
 
+  const uploadProfilePhoto = async (file, thumbFile) => {
+    const path = `user/${user.uid}/profile-photo.png`
+    const thumbPath = `user/${user.uid}/profile-photo-thumb.png`
+    let urls
+
+    try {
+      urls = await Promise.all([
+        uploadFile(file, path),
+        uploadFile(thumbFile, thumbPath),
+      ])
+    } catch (error) {
+      console.log('error uploading photo:', error.message)
+    }
+
+    const [photoURL, photoThumbURL] = urls
+
+    setUser((currentUser) => ({ ...currentUser, photoURL, photoThumbURL }))
+    return [photoURL, photoThumbURL]
+  }
+
   return (
-    <UserContext.Provider value={{ user, fetchUser, createUser, updateUser }}>
+    <UserContext.Provider
+      value={{ user, fetchUser, createUser, updateUser, uploadProfilePhoto }}>
       {children}
     </UserContext.Provider>
   )

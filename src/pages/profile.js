@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
@@ -12,6 +11,7 @@ import PageLayout from 'layouts/PageLayout'
 import EditProfileModal from 'components/modals/EditProfileModal'
 import ExperienceList from 'components/ExperienceList'
 import UserList from 'components/UserList'
+import AvatarButton from 'components/AvatarButton'
 
 const ProfilePage = () => {
   const { currentUser } = useAuth()
@@ -36,12 +36,11 @@ const ProfilePage = () => {
             color: 'white',
             gap: 1,
           }}>
-          <IconButton variant="contained" component="span" size="large">
-            <Avatar
-              src={user?.photoURL}
-              sx={{ width: '15vmax', height: '15vmax' }}
-            />
-          </IconButton>
+          <AvatarButton
+            src={user?.photoThumbURL}
+            width="15vmax"
+            height="15vmax"
+          />
 
           <Box
             sx={{
@@ -69,8 +68,13 @@ const ProfilePage = () => {
               </IconButton>
             </Box>
           </Box>
-
-          <EditProfileModal open={open} handleClose={handleClose} />
+          {user?.email && (
+            <EditProfileModal
+              user={user}
+              open={open}
+              handleClose={handleClose}
+            />
+          )}
         </Box>
       }>
       <Grid container spacing={3}>
