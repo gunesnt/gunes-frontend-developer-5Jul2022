@@ -13,13 +13,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: borales/actions-yarn@v3.0.0
         with:
-          cmd: install 
+          cmd: install
       - uses: borales/actions-yarn@v3.0.0
         with:
-          cmd: build 
+          cmd: build
       - uses: borales/actions-yarn@v3.0.0
         with:
-          cmd: test 
+          cmd: test
       - uses: actions/checkout@v2
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -27,45 +27,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ASSIGNMENT_5JUL2022 }}'
           channelId: live
           projectId: assignment-5jul2022
-
-
-name: Build and Deploy
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-      - name: Install Dependencies
-        run: npm install
-      - name: Build
-        run: npm run build-prod
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: dist
-          path: dist
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-      - name: Download Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: dist
-          path: dist
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
