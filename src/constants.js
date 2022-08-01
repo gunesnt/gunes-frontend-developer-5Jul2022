@@ -15,3 +15,6 @@ export const FIREBASE_CONFIG = {
 
 export const LEGAL_AGE = 18
 export const MAX_LEGAL_DATE = dayjs().subtract(LEGAL_AGE, 'year')
+
+export const COMPANY_SEARCH_API =
+  'https://autocomplete.clearbit.com/v1/companies/suggest'

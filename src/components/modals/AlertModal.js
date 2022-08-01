@@ -26,8 +26,10 @@ const AlertModal = ({
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={handleClose}>Cancel</Button>
-      <Button onClick={handleConfirm} autoFocus>
+      <Button sx={{ color: 'primary.main' }} onClick={handleClose}>
+        Cancel
+      </Button>
+      <Button sx={{ color: 'primary.main' }} onClick={handleConfirm} autoFocus>
         {confirmText}
       </Button>
     </DialogActions>

@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit'
 
 import { useAuth } from 'contexts/auth'
 import { useUser } from 'contexts/user'
+import { ExperienceProvider } from 'contexts/experience'
 import PageLayout from 'layouts/PageLayout'
 import EditProfileModal from 'components/modals/EditProfileModal'
 import ExperienceList from 'components/ExperienceList'
@@ -79,7 +80,11 @@ const ProfilePage = () => {
       }>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={8}>
-          <ExperienceList />
+          {!user?.uid ? null : (
+            <ExperienceProvider>
+              <ExperienceList />
+            </ExperienceProvider>
+          )}
         </Grid>
         <Grid item xs={12} sm={4}>
           <UserList />

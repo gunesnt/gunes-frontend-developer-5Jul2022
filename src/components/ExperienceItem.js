@@ -1,85 +1,67 @@
-import React, { useState } from 'react'
 import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
 import ListItem from '@mui/material/ListItem'
+import Typography from '@mui/material/Typography'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
-import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography'
-import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone'
 
 import { formatDate } from 'utils/date'
+import CompanyAvatar from 'components/CompanyAvatar'
 import ExperienceItemMenu from 'components/ExperienceItemMenu'
-import EditExperienceModal from 'components/modals/EditExperienceModal'
-import AlertModal from 'components/modals/AlertModal'
 
-const ExperienceItem = ({ item }) => {
-  const [editOpen, setEditOpen] = useState(false)
-  const [deleteOpen, setDeleteOpen] = useState(false)
-
-  const handleEditOpen = () => setEditOpen(true)
-  const handleEditClose = () => setEditOpen(false)
-
-  const handleDeleteOpen = () => setDeleteOpen(true)
-  const handleDeleteClose = () => setDeleteOpen(false)
-
-  return (
-    <ListItem alignItems="flex-start" sx={{ px: 0 }}>
-      <ListItemAvatar>
-        <Avatar
-          src={item.companyLogo}
-          alt={item.company}
-          sx={{ bgcolor: 'transparent', color: 'text.secondary' }}
-          variant="square">
-          <BusinessTwoToneIcon fontSize="large" />
-        </Avatar>
-      </ListItemAvatar>
-
-      <ListItemText
-        primary={
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <Typography>{item.jobTitle}</Typography>
-
-            <ExperienceItemMenu
-              handleEditClick={handleEditOpen}
-              handleDeleteClick={handleDeleteOpen}
-            />
-            <EditExperienceModal
-              open={editOpen}
-              handleClose={handleEditClose}
-            />
-            <AlertModal
-              open={deleteOpen}
-              title="Confirm Delete"
-              description="When you delete this experience, you can't take back."
-              confirmText="Delete"
-              handleClose={handleDeleteClose}
-              handleConfirm={handleDeleteClose}
-            />
-          </Box>
-        }
-        secondary={
-          <>
-            <Typography variant="caption" display="block">
-              {item.company}
-              {' — '}
-              {formatDate(item.startDate)}
-              {' - '}
-              {formatDate(item.endDate) || 'Present'}
-            </Typography>
-
-            <Typography variant="caption" color="text.primary">
-              {item.jobDescription}
-            </Typography>
-          </>
-        }
+const ExperienceItem = ({ item }) => (
+  <ListItem alignItems="flex-start" sx={{ px: 0 }}>
+    <ListItemAvatar>
+      <CompanyAvatar
+        src={item.company?.logo}
+        alt={item.company?.name || ''}
+        large
       />
-    </ListItem>
-  )
-}
+    </ListItemAvatar>
+
+    <ListItemText
+      primary={
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Typography>{item.jobTitle}</Typography>
+
+          <ExperienceItemMenu item={item} />
+        </Box>
+      }
+      secondary={
+        <>
+          <Typography variant="caption" display="block">
+            {!item.company.domain ? (
+              item.company.name
+            ) : (
+              <Link
+                href={`https://${item.company.domain}`}
+                target="_blank"
+                color="inherit"
+                title={item.company.name}>
+                {item.company.name}
+              </Link>
+            )}
+            {' — '}
+            {formatDate(item.startDate.toDate())}
+            {' - '}
+            {item.isCurrent ? 'Present' : formatDate(item.endDate.toDate())}
+          </Typography>
+
+          <Typography
+            variant="caption"
+            color="text.primary"
+            sx={{ whiteSpace: 'pre-line' }}>
+            {item.description}
+          </Typography>
+        </>
+      }
+    />
+  </ListItem>
+)
 
 export default ExperienceItem
