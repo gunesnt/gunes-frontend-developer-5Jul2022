@@ -38,7 +38,7 @@ export const ExperienceProvider = ({ children }) => {
 
   useEffect(() => {
     return () => {
-      unsubscribeListener.current()
+      unsubscribeListener.current?.()
     }
   }, [])
 

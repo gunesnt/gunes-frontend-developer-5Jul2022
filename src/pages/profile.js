@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 
+import { useModal } from 'utils/hooks'
 import { useAuth } from 'contexts/auth'
 import { useUser } from 'contexts/user'
 import { ExperienceProvider } from 'contexts/experience'
@@ -17,9 +18,7 @@ import AvatarButton from 'components/AvatarButton'
 const ProfilePage = () => {
   const { authUser } = useAuth()
   const { user, fetchUser } = useUser()
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [modalOpen, handleModalOpen, handleModalClose] = useModal(false)
 
   useEffect(() => {
     if (authUser?.uid) fetchUser(authUser.uid)
@@ -62,7 +61,7 @@ const ProfilePage = () => {
                 <span title="Age">25</span>
               </Typography>
               <IconButton
-                onClick={handleOpen}
+                onClick={handleModalOpen}
                 size="small"
                 sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                 <EditIcon fontSize="inherit" />
@@ -72,8 +71,8 @@ const ProfilePage = () => {
           {user?.email && (
             <EditProfileModal
               user={user}
-              open={open}
-              handleClose={handleClose}
+              open={modalOpen}
+              handleClose={handleModalClose}
             />
           )}
         </Box>

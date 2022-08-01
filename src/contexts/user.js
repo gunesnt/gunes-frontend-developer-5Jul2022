@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     return () => {
-      unsubscribeListener.current()
+      unsubscribeListener.current?.()
     }
   }, [])
 
