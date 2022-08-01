@@ -15,15 +15,15 @@ import UserList from 'components/UserList'
 import AvatarButton from 'components/AvatarButton'
 
 const ProfilePage = () => {
-  const { currentUser } = useAuth()
+  const { authUser } = useAuth()
   const { user, fetchUser } = useUser()
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   useEffect(() => {
-    if (currentUser?.uid) fetchUser(currentUser.uid)
-  }, [currentUser?.uid])
+    if (authUser?.uid) fetchUser(authUser.uid)
+  }, [authUser?.uid])
 
   return (
     <PageLayout

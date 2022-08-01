@@ -1,5 +1,12 @@
-import { createContext, useContext, useState } from 'react'
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore'
+import { createContext, useContext, useEffect, useState, useRef } from 'react'
+import {
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  onSnapshot,
+} from 'firebase/firestore'
 
 import { db, uploadFile } from 'utils/firebase'
 
@@ -17,37 +24,51 @@ export const useUser = () => useContext(UserContext)
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(USER)
+  const unsubscribeListener = useRef()
+
+  useEffect(() => {
+    return () => {
+      unsubscribeListener.current()
+    }
+  }, [])
+
+  const hasUser = async (uid) => {
+    const ref = doc(db, 'users', uid)
+    const snap = await getDoc(ref)
+    return snap.exists()
+  }
 
   const fetchUser = async (uid) => {
     const ref = doc(db, 'users', uid)
-    const snapshot = await getDoc(ref)
-    if (snapshot.exists()) setUser(snapshot.data())
+    unsubscribeListener.current?.()
+    unsubscribeListener.current = onSnapshot(ref, (snap) => {
+      if (!snap.exists()) setUser(USER)
+      setUser(snap.data())
+    })
   }
 
-  const createUser = async (authUser, data = {}) => {
-    const ref = doc(db, 'users', authUser.uid)
-    const snapshot = await getDoc(ref)
+  const mapUserFromAuthUser = (authUser) => {
+    const { uid, displayName: name, email, photoURL } = authUser
+    return {
+      ...USER,
+      uid,
+      name,
+      email,
+      photoURL,
+      photoThumbURL: photoURL,
+    }
+  }
 
-    if (!snapshot.exists()) {
-      const { uid, displayName: name, email, photoURL } = authUser
-      const createdAt = Timestamp.fromDate(new Date())
-      const newUser = {
-        ...USER,
-        uid,
-        name,
-        email,
-        photoURL,
-        photoThumbURL: photoURL,
-        createdAt,
-        ...data,
-      }
+  const createUser = async (uid, data = {}) => {
+    const ref = doc(db, 'users', uid)
+    const createdAt = Timestamp.fromDate(new Date())
+    const newUser = { ...data, createdAt }
 
-      try {
-        await setDoc(ref, newUser)
-        setUser(newUser)
-      } catch (error) {
-        console.log('error creating the user', error.message)
-      }
+    try {
+      await setDoc(ref, newUser)
+      setUser(newUser)
+    } catch (error) {
+      console.log('error creating the user', error.message)
     }
   }
 
@@ -62,9 +83,9 @@ export const UserProvider = ({ children }) => {
     }
   }
 
-  const uploadProfilePhoto = async (file, thumbFile) => {
-    const path = `user/${user.uid}/profile-photo.png`
-    const thumbPath = `user/${user.uid}/profile-photo-thumb.png`
+  const uploadProfilePhoto = async (uid, file, thumbFile) => {
+    const path = `user/${uid}/profile-photo.png`
+    const thumbPath = `user/${uid}/profile-photo-thumb.png`
     let urls
 
     try {
@@ -76,15 +97,20 @@ export const UserProvider = ({ children }) => {
       console.log('error uploading photo:', error.message)
     }
 
-    const [photoURL, photoThumbURL] = urls
-
-    setUser((currentUser) => ({ ...currentUser, photoURL, photoThumbURL }))
-    return [photoURL, photoThumbURL]
+    return urls
   }
 
   return (
     <UserContext.Provider
-      value={{ user, fetchUser, createUser, updateUser, uploadProfilePhoto }}>
+      value={{
+        user,
+        hasUser,
+        fetchUser,
+        createUser,
+        updateUser,
+        uploadProfilePhoto,
+        mapUserFromAuthUser,
+      }}>
       {children}
     </UserContext.Provider>
   )

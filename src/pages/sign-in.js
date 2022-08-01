@@ -33,8 +33,8 @@ const SignInPage = () => (
 
         <Grid container justifyContent="flex-end" sx={{ mt: -1 }}>
           <Grid item>
-            <Typography component={Link} to={SIGN_UP_PATH} variant="body2">
-              {"Don't have an account? Sign Up"}
+            <Typography variant="body2">
+              Don't have an account? <Link to={SIGN_UP_PATH}>Sign up</Link>
             </Typography>
           </Grid>
         </Grid>

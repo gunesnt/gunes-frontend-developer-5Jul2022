@@ -40,13 +40,13 @@ const fileToBlob = (file) =>
     fileReader.readAsDataURL(file)
   })
 
-export const useImageCompress = (maxWidthHeight, thumbWidthHeight) => {
+export const useImageCompress = (maxSize, thumbSize) => {
   const [{ rawFile, file, thumbFile, thumbBlob }, setFiles] = useState({})
 
   const updateFile = async (newRaw) => {
     const [newFile, newThumbFile] = await Promise.all([
-      imgResizeCompress(newRaw, maxWidthHeight, maxHeight),
-      imgCropResizeCompress(newRaw, thumbWidthHeight, thumbHeight),
+      imgResizeCompress(newRaw, maxSize, maxSize),
+      imgCropResizeCompress(newRaw, thumbSize, thumbSize),
     ])
 
     const newThumbBlob = await fileToBlob(newThumbFile)

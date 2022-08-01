@@ -13,7 +13,7 @@ import SignUpForm from 'components/SignUpForm'
 
 const SignUpPage = () => (
   <FullPageLayout>
-    <Section maxWidth={600}>
+    <Section maxWidth={400}>
       <Box
         sx={{
           display: 'flex',
@@ -33,8 +33,8 @@ const SignUpPage = () => (
 
         <Grid container justifyContent="flex-end" sx={{ mt: -1 }}>
           <Grid item>
-            <Typography component={Link} to={SIGN_IN_PATH} variant="body2">
-              {'Already have an account? Sign in'}
+            <Typography variant="body2">
+              Already have an account? <Link to={SIGN_IN_PATH}>Sign in</Link>
             </Typography>
           </Grid>
         </Grid>

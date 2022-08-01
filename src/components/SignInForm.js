@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import Box from '@mui/material/Box'
@@ -8,8 +8,10 @@ import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-import { AuthContext } from 'contexts/auth'
+import { useAuth } from 'contexts/auth'
+import { useFormikErrors } from 'utils/hooks'
 import SignInWithGoogle from 'components/SignInWithGoogle'
+import PasswordField from 'components/fields/PasswordField'
 
 const validationSchema = yup.object({
   email: yup.string().email('Invalid email address').required('Required'),
@@ -20,7 +22,7 @@ const validationSchema = yup.object({
 })
 
 const SignInForm = () => {
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useAuth()
 
   const formik = useFormik({
     initialValues: {
@@ -29,19 +31,22 @@ const SignInForm = () => {
       remember: false,
     },
     validationSchema,
-    onSubmit: async ({ email, password }) => await signIn(email, password),
+    onSubmit: async ({ email, password, remember }) =>
+      await signIn(email, password, remember),
   })
+
+  const formikErrors = useFormikErrors(formik)
 
   return (
     <Box>
-      <Box component="form" onSubmit={formik.handleSubmit}>
+      <Box component="form" onSubmit={formik.handleSubmit} noValidate>
         <TextField
           name="email"
           label="Email Address"
           autoComplete="email"
           {...formik.getFieldProps('email')}
-          error={!!(formik.touched.email && formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
+          error={!!formikErrors.email}
+          helperText={formikErrors.email}
           disabled={formik.isSubmitting}
           margin="normal"
           autoFocus
@@ -49,14 +54,13 @@ const SignInForm = () => {
           required
         />
 
-        <TextField
+        <PasswordField
           name="password"
-          type="password"
           label="Password"
           autoComplete="current-password"
           {...formik.getFieldProps('password')}
-          error={!!(formik.touched.password && formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
+          error={!!formikErrors.password}
+          helperText={formikErrors.password}
           disabled={formik.isSubmitting}
           margin="normal"
           fullWidth
@@ -64,6 +68,7 @@ const SignInForm = () => {
         />
 
         <FormControlLabel
+          label="Remember me"
           control={
             <Checkbox
               name="remember"
@@ -72,15 +77,14 @@ const SignInForm = () => {
               color="primary"
             />
           }
-          label="Remember me"
         />
 
         <Button
           fullWidth
           type="submit"
           variant="contained"
-          sx={{ mt: 3 }}
-          disabled={formik.isSubmitting}>
+          disabled={formik.isSubmitting}
+          sx={{ mt: 3 }}>
           Sign In
         </Button>
       </Box>

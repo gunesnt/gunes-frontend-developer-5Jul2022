@@ -30,21 +30,31 @@ const validationSchema = yup.object({
     ),
 })
 
-const EditProfileModal = ({ user, open, handleClose }) => {
-  const { uploadProfilePhoto, updateUser } = useUser()
+const EditProfileModal = ({ user, open, handleClose, completeProfile }) => {
+  const { uploadProfilePhoto, createUser, updateUser } = useUser()
   const { file, thumbFile, thumbBlob, updateFile } = useImageCompress(1024, 256)
   const photoThumbURL = useOr([thumbBlob, user.photoThumbURL, user.photoURL])
+  const alwaysOpen = completeProfile
 
   const onSubmit = async (values) => {
     values.birthday = Timestamp.fromDate(dayjs(values.birthday).toDate())
 
     if (file && thumbFile) {
-      const [url, thumbUrl] = await uploadProfilePhoto(file, thumbFile)
+      const [url, thumbUrl] = await uploadProfilePhoto(
+        user.uid,
+        file,
+        thumbFile,
+      )
       values.photoURL = url
       values.photoThumbURL = thumbUrl
     }
 
-    await updateUser(user.uid, values)
+    if (completeProfile) {
+      await createUser(user.uid, { ...user, ...values })
+    } else {
+      await updateUser(user.uid, values)
+    }
+
     handleClose()
   }
 
@@ -61,9 +71,16 @@ const EditProfileModal = ({ user, open, handleClose }) => {
   const formikErrors = useFormikErrors(formik)
 
   return (
-    <Dialog maxWidth="xs" scroll="body" open={open} onClose={handleClose}>
+    <Dialog
+      maxWidth="xs"
+      scroll="body"
+      open={alwaysOpen || open}
+      hideBackdrop={alwaysOpen}
+      onClose={alwaysOpen ? () => null : handleClose}>
       <form onSubmit={formik.handleSubmit} noValidate>
-        <DialogTitle>Edit Profile</DialogTitle>
+        <DialogTitle>
+          {completeProfile ? 'Complete' : 'Edit'} Profile
+        </DialogTitle>
         <DialogContent>
           <Box display="flex" justifyContent="center" sx={{ mb: 3 }}>
             <AvatarUploadButton
@@ -86,6 +103,15 @@ const EditProfileModal = ({ user, open, handleClose }) => {
             margin="normal"
             fullWidth
             required
+          />
+
+          <TextField
+            name="email"
+            label="Email"
+            value={user.email}
+            margin="normal"
+            fullWidth
+            disabled
           />
 
           <TextField
@@ -127,9 +153,11 @@ const EditProfileModal = ({ user, open, handleClose }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button sx={{ color: 'primary.main' }} onClick={handleClose}>
-            Cancel
-          </Button>
+          {!alwaysOpen && (
+            <Button sx={{ color: 'primary.main' }} onClick={handleClose}>
+              Cancel
+            </Button>
+          )}
           <Button
             type="submit"
             sx={{ color: 'primary.main' }}

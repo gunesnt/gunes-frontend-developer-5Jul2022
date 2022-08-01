@@ -1,8 +1,9 @@
 import dayjs from 'dayjs'
 
-export const DEFAULT_PROTECTED_PATH = '/'
+export const PROTECTED_PATH = '/'
 export const SIGN_IN_PATH = '/sign-in'
 export const SIGN_UP_PATH = '/sign-up'
+export const SIGN_UP_COMPLETE_PATH = '/sign-up-complete'
 
 export const FIREBASE_CONFIG = {
   apiKey: process.env.REACT_APP__FB__API_KEY,
